@@ -15,18 +15,3 @@ for i in xrange(no_elements-1,0,-1):
 		break;
 
 print elements
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
