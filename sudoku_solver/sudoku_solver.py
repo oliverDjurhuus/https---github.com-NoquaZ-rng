@@ -135,13 +135,6 @@ def window_duplicate_exclusion_scan(matrix):
 	# Extracting each 3x3 window into one collecting 'windows'
 	for i in range(3):
 		for j in range(3):
-
-
-
-
-
-
-
 			window = []
 			for k in range(3):
 				window.extend(matrix[i*3+k][3*j:3*j+3])
@@ -176,18 +169,49 @@ pretty_print_matrix(make_candidates(matrix))
 
 window_duplicate_exclusion_scan(matrix)
 
-
-#sample_space(all_entry_positions)
-
-#print search_all(matrix)
-
-
-
-
 print "MATRIX: "
 pretty_print_matrix(matrix)
 
+def line_exclusion(matrix):
 
+	# Vertical exclusion
+	for line in matrix:
+		candidates = []
+		entries = []
+		for element in line:
+			if type(element) == int:
+				entries.append(element)
+			else:
+				candidates.append(element)
+		for entry in entries:
+			for candidate in candidates:
+				for index in range(len(candidate)):
+					if entry == candidate[index]:
+						candidate.pop(index)
+						break
+		print line
+
+	# Horizontal exclusion
+	transpose(matrix)
+	for line in matrix:
+		candidates = []
+		entries = []
+		for element in line:
+			if type(element) == int:
+				entries.append(element)
+			else:
+				candidates.append(element)
+		for entry in entries:
+			for candidate in candidates:
+				for index in range(len(candidate)):
+					if entry == candidate[index]:
+						candidate.pop(index)
+						break
+		print line
+	transpose(matrix)
+
+line_exclusion(matrix)
+pretty_print_matrix(matrix)
 
 
 
