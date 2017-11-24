@@ -72,7 +72,7 @@ def pretty_print_matrix(matrix):
 	#print matrix
 	print '---------------------------'
 	for e in matrix:
-		print e
+		print e[0:3], " | " , e[3:6], " | " , e[3:6]
 		#for t in e:
 		#	print t, " ",
 		#print ''
@@ -121,21 +121,20 @@ def scanning(matrix, pivot):
 
 all_entry_positions = search_all(matrix)
 
-def sample_space(matrix):
+
+def make_candidates(matrix):
 	for i in range(9):
 		for j in range(9):
 			if matrix[i][j] == 0 :
 				matrix[i][j] = [h for h in range(1,10)]
 	return matrix
 
-print pretty_print_matrix(sample_space(matrix))
-
 def window_duplicate_exclusion_scan(matrix):
+	windows = []
 
+	# Extracting each 3x3 window into one collecting 'windows'
 	for i in range(3):
 		for j in range(3):
-			print "hi"
-			print matrix[i*3:i*3+3][j*3:j*3+3]
 
 
 
@@ -143,20 +142,50 @@ def window_duplicate_exclusion_scan(matrix):
 
 
 
+			window = []
+			for k in range(3):
+				window.extend(matrix[i*3+k][3*j:3*j+3])
+			windows.append(window)
+	print windows
 
+	# Checking for duplicates in each 3x3 window
+	for window in windows:
+		entries = []
+		candidates = []
+
+		# First separating entries and candidates
+		for element in window:
+			if type(element) == int: # the element is an entry
+				entries.append(element)
+			else :
+				candidates.append(element)
+
+		# Comparing entries with candidates and removing any 
+		# candidate that is a duplicate.
+		for entry in entries:
+			for candidate in candidates:
+				for index in range(len(candidate)):
+					if (entry == candidate[index]):
+						candidate.pop(index)
+						break
+						
+		# The candidates has now been updated which are directly referenced
+		# to the original matrix. Hence, the matrix is already updated.
+
+pretty_print_matrix(make_candidates(matrix))
 
 window_duplicate_exclusion_scan(matrix)
 
-def line_duplicate_exclusion_scan():
-	return 0
 
 #sample_space(all_entry_positions)
 
-print pretty_print_matrix(matrix)
-print pretty_print_matrix(search_all(matrix))
 #print search_all(matrix)
 
 
+
+
+print "MATRIX: "
+pretty_print_matrix(matrix)
 
 
 
