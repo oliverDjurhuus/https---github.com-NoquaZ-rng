@@ -72,7 +72,7 @@ def pretty_print_matrix(matrix):
 	#print matrix
 	print '---------------------------'
 	for e in matrix:
-		print e[0:3], " | " , e[3:6], " | " , e[3:6]
+		print e[0:3], " | " , e[3:6], " | " , e[6:9]
 		#for t in e:
 		#	print t, " ",
 		#print ''
@@ -139,7 +139,7 @@ def window_duplicate_exclusion_scan(matrix):
 			for k in range(3):
 				window.extend(matrix[i*3+k][3*j:3*j+3])
 			windows.append(window)
-	print windows
+	#print windows
 
 	# Checking for duplicates in each 3x3 window
 	for window in windows:
@@ -162,15 +162,8 @@ def window_duplicate_exclusion_scan(matrix):
 						candidate.pop(index)
 						break
 						
-		# The candidates has now been updated which are directly referenced
-		# to the original matrix. Hence, the matrix is already updated.
-
-pretty_print_matrix(make_candidates(matrix))
-
-window_duplicate_exclusion_scan(matrix)
-
-print "MATRIX: "
-pretty_print_matrix(matrix)
+	# The candidates has now been updated which are directly referenced
+	# to the original matrix. Hence, the matrix is already updated.
 
 def line_exclusion(matrix):
 
@@ -189,7 +182,7 @@ def line_exclusion(matrix):
 					if entry == candidate[index]:
 						candidate.pop(index)
 						break
-		print line
+		#print line
 
 	# Horizontal exclusion
 	transpose(matrix)
@@ -207,19 +200,29 @@ def line_exclusion(matrix):
 					if entry == candidate[index]:
 						candidate.pop(index)
 						break
-		print line
+		#print line
 	transpose(matrix)
 
-line_exclusion(matrix)
+
+def line_add_new_entries(matrix):
+	for line in matrix:
+		for index in range(len(line)):
+			if type(line[index]) == list and len(line[index]) == 1:
+				line[index] = line[index][0]
+	#return matrix
+
+
 pretty_print_matrix(matrix)
+pretty_print_matrix(make_candidates(matrix))
 
+for i in range(5):
+	#window_duplicate_exclusion_scan(matrix)
+	line_exclusion(matrix)
 
+	line_add_new_entries(matrix)
 
-
-
-
-
-
+	print i, " ------------------"
+	pretty_print_matrix(matrix)
 
 
 
