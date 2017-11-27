@@ -129,6 +129,39 @@ def make_candidates(matrix):
 				matrix[i][j] = [h for h in range(1,10)]
 	return matrix
 
+def extract_windows(matrix):
+	windows = []
+	window = []
+	for i in range(3):
+		for j in range(3):
+			window = []
+			for k in range(3):
+				window.extend(matrix[i*3+k][3*j:3*j+3])
+			windows.append(window)
+	return windows
+
+# Takes the matrix or a window and returns a 2-tupple of candidates and entries
+def seperate_candidates_and_entries(list_of_cells):
+	entries = []
+	candidates = []
+
+	for cell in list_of_cells:
+		if type(cell) == int:
+			entries.append(cell)
+		else:
+			candidates.append(cell)
+
+
+	print "candidates: ", candidates
+	print "entries ", entries
+	return (entries, candidates)
+
+
+def scan_window_candidate_uniqueness(matrix):
+	windows = extract_windows(matrix)
+	(entries, candidates) = seperate_candidates_and_entries(windows[0])
+
+
 def window_duplicate_exclusion_scan(matrix):
 	windows = []
 
@@ -215,9 +248,10 @@ def line_add_new_entries(matrix):
 pretty_print_matrix(matrix)
 pretty_print_matrix(make_candidates(matrix))
 
-for i in range(10):
-	window_duplicate_exclusion_scan(matrix)
-	line_exclusion(matrix)
+for i in range(1):
+	scan_window_candidate_uniqueness(extract_windows(matrix))
+	#window_duplicate_exclusion_scan(matrix)
+	#line_exclusion(matrix)
 
 	line_add_new_entries(matrix)
 
